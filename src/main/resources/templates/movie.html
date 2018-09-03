@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:include="base::htmlhead" th:with="title='首页'"></head>
+<body>
+<div th:replace="base::nav"></div>
+<div class="container">
+    <div class="movie-head">
+        <h1 class="site-title">This is my watching movies list</h1>
+        <p class="lead site-description">record something</p>
+    </div>
+    <div class="row">
+        <div class="col-sm-8 movie-main" id="movie-main">
+            <div class="movie-post row" th:each="movie:${pages.content}">
+                <div class="col-sm-4">
+                    <div class="movie-timeaxis" th:text="${movie.createTime}"><i class="spot"></i></div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="movie-info">
+                        <h3 class="movie-title" th:text="${movie.title}">
+                        </h3>
+                        <div class="movie-other" th:if="${movie.type==1}">
+                            <span class="movie-season label label-primary">第<span
+                                    th:text="${movie.season}"></span>季</span>
+                            <span class="movie-episode label label-info">第<span
+                                    th:text="${movie.episode}"></span>集</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" role="progressbar"
+                                 th:attr="aria-valuenow=${movie.progress}+'%'" aria-valuemin="0"
+                                 aria-valuemax="100" th:style="'width:'+${movie.progress}+'%'"
+                                 th:text="|${movie.progress}%|">
+                                60%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="tips loading">正在加载...</p>
+            <nav>
+                <!--<ul class="pager" th:object="${pages}">-->
+                <!--<li><a th:href="@{/movies}">首页</a></li>-->
+                <!--<li th:switch="${pages.number}">-->
+                <!--<a th:case="0" th:href="@{/movies?page=1}" class="disabled">上一页</a>-->
+                <!--<a th:case="*" th:href="@{movies?page={page}(page=*{number}-1)}">上一页</a>-->
+                <!--</li>-->
+                <!--<li th:switch="${pages.number}">-->
+                <!--<a th:case="${pages.totalPages}" th:href="@{/movies?page={page}(page=${pages.totalPages})}" class="disabled">下一页</a>-->
+                <!--<a th:case="*" th:href="@{movies?page={page}(page=*{number}+1)}">下一页</a>-->
+                <!--</li>-->
+                <!--<li><a th:href="@{/movies?page={page}(page=${pages.totalPages})}">尾页</a></li>-->
+                <!--&lt;!&ndash;<li><a th:href="@{/movies?page={page}(page=*{number}-1)}">previous</a></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li><a th:href="@{/movies?page={page}(page=*{number}+1)}">next</a></li>&ndash;&gt;-->
+                <!--</ul>-->
+                <ul class="pager" style="display:none" th:object="${pages}">
+                    <li><a th:href="@{/movies}">首页</a></li>
+                    <span th:switch="${pages.number}">
+                        <li th:case="0" class="disabled">
+                            <a th:href="@{/movies?page=0}" class="disabled">上一页</a></li>
+                        <li th:case="*">
+                            <a th:href="@{movies?page={page}(page=*{number}-1)}">上一页</a>
+                        </li>
+                    </span>
+                    <span th:switch="${pages.number}">
+                        <li th:case="${pages.totalPages}-1" class="disabled">
+                            <a th:href="@{/movies?page={page}(page=${pages.totalPages}-1)}"
+                               class="disabled">下一页</a></li>
+                        <li th:case="*">
+                            <a th:href="@{movies?page={page}(page=*{number}+1)}">下一页</a>
+                        </li>
+                    </span>
+                    <li><a th:href="@{/movies?page={page}(page=${pages.totalPages}-1)}">尾页</a></li>
+                </ul>
+            </nav>
+        </div>
+        <!--新增等操作侧边栏-->
+        <div class="col-sm-3 movie-sidebar">
+            <form class="form-horizontal" id="add_form">
+                <fieldset>
+                    <legend>我又看了啥?</legend>
+                    <div class="form-group">
+                        <label for="inputTitle" class="col-sm-3 control-label">剧名</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="title" class="form-control" id="inputTitle" placeholder="title">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputFilm" class="col-sm-3 control-label">类型</label>
+                        <div class="col-sm-9">
+                            <label class="radio-inline">
+                                <input type="radio" name="type" id="inputFilm" value="0"> film
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="type" id="inputTv" value="1" checked> tv
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group tv-need">
+                        <label for="inputSeason" class="col-sm-3 control-label">季度</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <span class="input-group-addon">第</span>
+                                <input type="number" name="season" autocomplete="false" class="form-control"
+                                       id="inputSeason" placeholder="">
+                                <span class="input-group-addon">季</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group tv-need">
+                        <label for="inputEpisode" class="col-sm-3 control-label">集数</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <input type="text" name="episode" autocomplete="false" class="form-control"
+                                       id="inputEpisode"
+                                       placeholder="">
+                                <span class="input-group-addon">集</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputProgress" class="col-sm-3 control-label">进度</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <input type="range" name="progress" class="form-control" id="inputProgress" min="0"
+                                       max="100" value="100" oninput="changeProgressAddon()">
+                                <span class="input-group-addon" id="progress-addon">100%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputDescription" class="col-sm-3 control-label">描述</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" name="description" rows="3" id="inputDescription"
+                                      placeholder="description"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-9">
+                            <button type="submit" class="btn btn-black" id="add_submit">提交</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    let cur_page = 0;
+    let max_page = 2;
+
+    // 改变进度显示
+    function changeProgressAddon() {
+        var pro = $("#inputProgress").val();
+        var pro_text = pro + "%";
+        $("#progress-addon").html(pro_text);
+    }
+
+    // 提交添加表单
+    function submit_addform() {
+        $("#add_submit").on("click", function (event) {
+            event.preventDefault();
+            console.log("阻止提交表单");
+            const add_url = "http://localhost:8080/api/movie/add";
+            const form_values = $("#add_form").serializeArray();
+            let datas = {};
+            for (let x in form_values) {
+                datas[form_values[x].name] = form_values[x].value;
+            }
+            if (datas['title'] == "") {
+                $("input[name='title']").parent().addClass("has-error");
+                $.toast({
+                    heading: 'Error',
+                    text: "标题不能为空!",
+                    showHideTransition: 'slide',
+                    icon: 'error',
+                    position: 'bottom-right',
+                });
+                $("input[name='title']").focus();
+                return;
+            } else {
+                $("input[name='title']").parent().removeClass("has-error");
+            }
+            $.ajax({
+                    url: add_url,
+                    data: datas,
+                    type: "post",
+                    success: function (response) {
+                        if (response.rspCode == "000000") {
+                            $.toast({
+                                heading: 'Success',
+                                text: '增加成功,点击<a href="/movies">这里刷新</a>当前页面',
+                                showHideTransition: 'slide',
+                                icon: 'success',
+                                position: 'bottom-right',
+                            });
+                        } else {
+                            $.toast({
+                                heading: 'Error',
+                                text: response.rspMsg,
+                                showHideTransition: 'slide',
+                                icon: 'error',
+                                position: 'bottom-right',
+                            });
+                        }
+                    },
+                }
+            );
+        });
+    }
+
+    // 自动完成title提示框
+    function autoCompleteTitle() {
+        const auto_url = "/api/movie/queryset"
+        $("#inputTitle").autocomplete({
+            minLength: 0,
+            source: function (request, response) {
+                var in_title = $("#inputTitle").val();
+                if (in_title.trim == "") {
+                    return;
+                }
+                let cache_datas = window.sessionStorage.getItem(in_title);
+                if (cache_datas != null) {
+                    let cache_array = cache_datas.split(",");
+                    response(cache_array);
+                    return;
+                }
+                var datas = {"key": in_title};
+                $.ajax({
+                    url: auto_url,
+                    type: "post",
+                    dataType: "json",
+                    data: datas,
+                    success: function (data) {
+                        console.log(data);
+                        window.sessionStorage.setItem(in_title, data.data);
+                        response(data.data);
+                    }
+                });
+            },
+        });
+    }
+
+    //判断是否已经到底部了
+    function toBottom() {
+        var scrollTop = $(window).scrollTop();
+        var clientHeight = $(window).height();
+        // var offsetTop = $(".movie-post:last-of-type").offset().top;
+        var scrollHeight = $(document).height();
+        // console.log(scrollTop + "..." + clientHeight + "..." + scrollHeight);
+        if (scrollTop + clientHeight == scrollHeight ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // 追加数据到当前时间轴后面
+    function appendData(items) {
+        let main = $("#movie-main");
+        let cre_time = "";
+        let cur_title = "";
+        let block = "";
+        for (var i = 0; i < items.length; i++) {
+            cur_title = items[i].title.trim();
+            cre_time = timestamp2time(items[i].createTime);
+            block = "<div class='movie-post row'><div class='col-sm-4'><div class='movie-timeaxis'>" + cre_time + "<i class='spot'></i></div></div>"+
+                "<div class='col-sm-8'><div class='movie-info'><h3 class='movie-title'>" + cur_title + "</h3>";
+            if (items[i].type == 1) {
+                block += "<div class='movie-other'><span class='movie-season label label-primary'>第" + items[i].season + "季</span><span class='movie-episode label label-info'>" +
+                    "第" + items[i].episode + "集</span></div>";
+            }
+            block += "<div class='progress'><div class='progress-bar progress-bar-success' role='progressbar' aria-valuenow='" + items[i].progress + "%' aria-valuemin='0'" +
+                "aria-valuemax='100' style='width:" + items[i].progress + "%'>" + items[i].progress + "%</div></div></div></div></div>";
+            main.append(block);
+            block = "";
+        }
+    }
+
+    // 流加载首页数据
+    function steamLoad() {
+        $(window).on("scroll", function () {
+            if (toBottom()) {
+                $(".tips").fadeIn("fast");
+                if (cur_page < max_page-1) {
+                    cur_page += 1;
+                    var datas = {"page": cur_page};
+                    $.ajax({
+                        url: "/api/movie/steamload",
+                        dataType: "json",
+                        type: "post",
+                        data: datas,
+                        success: function (data) {
+                            max_page = data.data.totalPages;
+                            appendData(data.data.content);
+                        }
+                    });
+                } else {
+                    $.toast({
+                        heading: 'Tips',
+                        text: "当前已经到最后一页了!",
+                        showHideTransition: 'slide',
+                        icon: 'info',
+                        position: 'bottom-right',
+                    });
+                }
+                $(".tips").fadeOut("slow");
+            }
+        });
+    }
+
+    $(function () {
+        alertTimeaxis();
+        setMovieTypeRadio();
+        choiceTypeRadio();
+        submit_addform();
+        autoCompleteTitle();
+        steamLoad();
+    });
+</script>
+</body>
+</html>
