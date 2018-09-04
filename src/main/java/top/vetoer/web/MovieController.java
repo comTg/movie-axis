@@ -56,7 +56,7 @@ public class MovieController extends BaseController {
                 movieSet.setLastModifyTime(DateUtils.getCurrentTime());
             }
             String episode = movie.getEpisode();
-            if (episode.indexOf("-") > 0) {
+            if (movie.getType()==1 && episode.indexOf("-") > 0) {
                 String start = episode.substring(0, episode.indexOf("-"));
                 String end = episode.substring(episode.indexOf("-") + 1);
                 logger.info("集数范围为:"+start+","+end);

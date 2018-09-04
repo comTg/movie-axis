@@ -23,6 +23,12 @@ public class IndexController extends BaseController{
     @Autowired
     private MovieRepository movieRepository;
 
+    @RequestMapping(value = "/")
+    @LoggerManage(description = "转发到movies")
+    public String index(){
+        return "redirect:/movies";
+    }
+
     @RequestMapping(value = "/movies")
     @LoggerManage(description = "movie首页")
     public String show_movie(@RequestParam(value = "page", defaultValue = "0") Integer page,

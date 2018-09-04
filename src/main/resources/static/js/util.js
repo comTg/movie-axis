@@ -42,8 +42,9 @@ function choiceTypeRadio(){
        window.localStorage.setItem("movie-type",type);
       if(type==0){
           $(".tv-need").fadeOut("fast");
+          $("input[name='episode']").val("");
+          $("input[name='season']").val("");
       }else{
-          // $(".tv-need").show();
           $(".tv-need").fadeIn("fast");
       }
    });

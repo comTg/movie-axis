@@ -159,7 +159,7 @@
         $("#add_submit").on("click", function (event) {
             event.preventDefault();
             console.log("阻止提交表单");
-            const add_url = "http://localhost:8080/api/movie/add";
+            const add_url = "/api/movie/add";
             const form_values = $("#add_form").serializeArray();
             let datas = {};
             for (let x in form_values) {
@@ -291,6 +291,7 @@
                         success: function (data) {
                             max_page = data.data.totalPages;
                             appendData(data.data.content);
+                            $(".tips").fadeOut("slow");
                         }
                     });
                 } else {
@@ -301,8 +302,8 @@
                         icon: 'info',
                         position: 'bottom-right',
                     });
+                    $(".tips").fadeOut("slow");
                 }
-                $(".tips").fadeOut("slow");
             }
         });
     }
