@@ -27,7 +27,7 @@ function alertTimeaxis(){
     $(".movie-timeaxis").each(function(index){
        let text = $(this).text();
        const new_time = timestamp2time(text);
-       console.log("old time is: ",text,"new time is: ",new_time);
+       // console.log("old time is: ",text,"new time is: ",new_time);
        $(this).html(new_time);
        var i_spot = "<i class='spot'></i>";
        $(this).append(i_spot);
@@ -56,9 +56,32 @@ function setMovieTypeRadio(){
     if(null==type){
         type=1;
     }else if(type==0){
-        $(".tv-need").fadeOut("slow");
+        // $(".tv-need").fadeOut("slow");
+        $(".tv-need").hide();
     }
     $("input:radio").eq(parseInt(type)).prop("checked",true);
+}
+
+function popupToast(heading,text,icon){
+    $.toast({
+        heading: heading,
+        text: text,
+        showHideTransition: 'slide',
+        icon: icon,
+        position: 'bottom-right',
+    });
+}
+
+// 给datetime-local赋默认值
+function defaultDateTime(){
+    var now = new Date();
+    var res = "";
+    res += now.getUTCFullYear()+"-";
+    res += ((now.getUTCMonth() + 1) < 10 ? "0" + (now.getUTCMonth() + 1) : (now.getUTCMonth() + 1))+"-";
+    res += (now.getUTCDate() < 10 ? "0" + now.getUTCDate() : now.getUTCDate()) +"T";
+    res += now.getHours()+":"+now.getUTCMinutes();
+    console.log(res);
+    $("#inputCreateTime").val(res);
 }
 
 

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:include="base::htmlhead" th:with="title='观影目录'"></head>
+<body>
+<div th:replace="base::nav"></div>
+<div class="container">
+    <div class="row">
+        <div class="ca-cell" th:each="movieSet:${pages.content}">
+            <a th:href="|/movieset/${movieSet.id}|">
+            <div class="ca-box">
+                <h3 class="ca-title" th:text="${movieSet.title}"></h3>
+                <span class="ca-time" th:text="${#dates.format(movieSet.lastModifyTime,'yyyy-MM-dd HH:mm')}"></span>
+            </div></a>
+        </div>
+    </div>
+</div>
+
+<script>
+
+</script>
+</body>
+</html>

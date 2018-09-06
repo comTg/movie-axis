@@ -1,36 +1,3 @@
-body {
-    /*font-family: "Verdana","微软雅黑",Georgia, "Times New Roman", Times, serif;*/
-    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-    color: #555;
-    background-color: #fafafa;
-}
-
-h1, .h1,
-h2, .h2,
-h3, .h3,
-h4, .h4,
-h5, .h5,
-h6, .h6 {
-    margin-top: 0;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: normal;
-    color: #333;
-}
-
-
-/*
- * Override Bootstrap's default container.
- */
-
-@media (min-width: 1200px) {
-    .container {
-        width: 1100px;
-    }
-}
-.disabled{
-    pointer-events: none;
-}
-
 
 .movie-masthead{
     /*-webkit-box-shadow: inset 0 -2px 5px rgba(0,0,0,.1);*/
@@ -130,29 +97,34 @@ h6, .h6 {
 .movie-post {
     /*margin-bottom: 60px;*/
 }
+.movie-post:hover{
+    /*box-shadow:0px 3px 6px rgba(0,0,0,.2);*/
+}
 .movie-post:hover .movie-timeaxis{
     color:#000;
 }
 .movie-post:hover .movie-info{
-    box-shadow: 9px 11px 5px -8px #70b98e;
+    /*box-shadow: 9px 11px 5px -8px #b1e4e2;*/
+    box-shadow: 9px 11px 5px -8px rgba(0,0,0,.2);
 }
 .movie-timeaxis{
     position: relative;
     display: inline-block;
     font-size:15px;
     color:#999;
-    border-right: 2px solid #000;
+    border-right: 2px solid #d2d2d2;
     min-height: 130px;
     padding-top:6px;
 }
 .spot{
     position: absolute;
-    border:5px solid #000000;
+    border:5px solid #7c7c7c;
     border-radius: 5px;
     right:-6px;
 }
 .movie-info{
-    box-shadow: 9px 11px 5px -8px #bbbbbb;
+    /*box-shadow: 9px 11px 5px -8px #bbbbbb;*/
+    padding-top:10px;
 }
 .movie-other{
     margin-bottom:5px;

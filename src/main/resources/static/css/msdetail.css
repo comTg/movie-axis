@@ -1,0 +1,26 @@
+.msd-head{
+    background-color: #fafafa;
+    border-bottom: 1px solid rgba(1,1,1,.2);
+}
+.msd-i-pencil{
+    margin-left:5px;
+}
+.msd-head-right{
+    margin-top:20px;
+}
+.msd-info{
+    font-size:16px;
+    display:block;
+    padding:6px;
+}
+.msd-info>span{
+    display: inline-block;
+}
+.msd-info-left{
+    width:30%;
+    text-align: left;
+}
+.msd-info-right{
+    mini-width:60%;
+    text-align: left;
+}

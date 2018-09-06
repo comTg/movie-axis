@@ -59,16 +59,25 @@ public class MovieController extends BaseController {
             if (movie.getType()==1 && episode.indexOf("-") > 0) {
                 String start = episode.substring(0, episode.indexOf("-"));
                 String end = episode.substring(episode.indexOf("-") + 1);
+                if("".equals(end) || null==end){
+                    end = start;
+                }
                 logger.info("集数范围为:"+start+","+end);
                 for (int i = Integer.valueOf(start); i <= Integer.valueOf(end); i++) {
                     Movie temp = movie.clone();
                     temp.setEpisode(i + "");
-                    temp.setCreateTime(DateUtils.getCurrentTime());
+                    if(movie.getCreateTime()!=0 || null!=movie.getCreateTime()){
+                        temp.setCreateTime(movie.getCreateTime());
+                    }else{
+                        temp.setCreateTime(DateUtils.getCurrentTime());
+                    }
                     temp.setCategoryId(movieSet.getId());
                     movieRepository.save(temp);
                 }
             } else {
-                movie.setCreateTime(DateUtils.getCurrentTime());
+                if(movie.getCreateTime()==0 || null==movie.getCreateTime()){
+                    movie.setCreateTime(DateUtils.getCurrentTime());
+                }
                 movie.setCategoryId(movieSet.getId());
                 movieRepository.save(movie);
             }
@@ -105,6 +114,13 @@ public class MovieController extends BaseController {
         }
         String[] res = {"无历史数据"};
         return new ResponseData(res);
+    }
+
+    @PostMapping(value = "/updateSetDesc")
+    @LoggerManage(description = "更改set的描述")
+    public Response updateSetDesc(@RequestParam(value = "setId",required = true) long setId,@RequestParam(value = "description",required = true) String description){
+        int result = movieSetRepository.updateDescById(setId,description);
+        return result();
     }
 
 }
