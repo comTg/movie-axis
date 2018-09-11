@@ -9,10 +9,10 @@
         <p class="lead site-description">record something</p>
     </div>
     <div class="row">
-        <div class="col-sm-4 movie-sidebar">
+        <div class="movie-sidebar">
             <form class="form-horizontal" id="add_form">
                 <fieldset>
-                    <legend>我又看了啥?</legend>
+                    <legend>我又看了啥?<span id="form-switch">展开</span></legend>
                     <div class="form-group">
                         <label for="inputTitle" class="col-sm-3 control-label">剧名</label>
                         <div class="col-sm-9">
@@ -109,6 +109,9 @@
                                 60%
                             </div>
                         </div>
+                        <div class="movie-desc">
+                            <span th:text="${movie.description}"></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -156,6 +159,7 @@
 <script>
     let cur_page = 0;
     let max_page = 2;
+    let formShow = false;
 
     // 改变进度显示
     function changeProgressAddon() {
@@ -306,6 +310,21 @@
         });
     }
 
+    function formSwitch(){
+        $("#form-switch").on("click",function(){
+           if(formShow){
+               $(".form-group").hide();
+               $(this).text("展开");
+               $(".movie-sidebar").removeClass("col-sm-4");
+           }else{
+               $(".form-group").show();
+               $(this).text("折叠");
+               $(".movie-sidebar").addClass("col-sm-4");
+           }
+           formShow = !formShow;
+        });
+    }
+
     $(function () {
         alertTimeaxis();
         setMovieTypeRadio();
@@ -314,6 +333,7 @@
         autoCompleteTitle();
         defaultDateTime();
         steamLoad();
+        formSwitch();
     });
 </script>
 </body>

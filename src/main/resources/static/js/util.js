@@ -79,7 +79,8 @@ function defaultDateTime(){
     res += now.getUTCFullYear()+"-";
     res += ((now.getUTCMonth() + 1) < 10 ? "0" + (now.getUTCMonth() + 1) : (now.getUTCMonth() + 1))+"-";
     res += (now.getUTCDate() < 10 ? "0" + now.getUTCDate() : now.getUTCDate()) +"T";
-    res += now.getHours()+":"+now.getUTCMinutes();
+    res += now.getHours()+":";
+    res += now.getUTCMinutes()<10? "0"+now.getUTCMinutes() : now.getUTCMinutes();
     console.log(res);
     $("#inputCreateTime").val(res);
 }
